@@ -6,37 +6,48 @@ import csv
 import itertools
 import time
 
-# PRIX DE L'ACTION - (PRIX DE L'ACTION * ROI)
 # MAXIMUM COST POSSIBLE : 822
 # MAXIMUM COMBINATION POSSIBLE : 1.048.575
-stocks = []
-possible_combination = []
-alors_peut_etre = []
 
 
 def search_csv():
+    stocks = []
     with open("Action.csv") as file:
         reader = csv.reader(file)
         for row in reader:
-            stock = [row[0], float(row[1]), float(row[2])]
+            stock = (
+                row[0],
+                float(row[1]),
+                float(row[2]),
+                float(row[1]) * float(row[2]),
+            )
             stocks.append(stock)
+    return stocks
 
 
-search_csv()
+stocks = search_csv()
 
 
-def create_combination():
-    target = 500
+def create_combination(budget):
     start = time.time()
-    for i in range(len(stocks), 0, -1):
-        for j in itertools.combinations([x[1] for x in stocks], i):
-            if sum(j) <= target:
-                possible_combination.append(j)
+    possible_combinations = []
+    for actions_number in range(1, len(stocks) + 1):
+        for combination in itertools.combinations(stocks, actions_number):
+            combination_costs = [action[1] for action in combination]
+            if sum(combination_costs) <= budget:
+                possible_combinations.append(combination)
     end = time.time()
     print("Execution time :", (end - start) * 10**3, "ms")
+    return possible_combinations
 
 
-create_combination()
-# print(stocks[1][1:3])
-# print(stocks)
-print(len(possible_combination))
+possible_combinations = create_combination(budget=500)
+print(len(possible_combinations))
+
+
+def find_best_option():
+    for combination in possible_combinations:
+        benefits = sum(action[3] for action in combination)
+
+
+find_best_option()
