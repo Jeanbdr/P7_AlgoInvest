@@ -47,7 +47,9 @@ print(len(possible_combinations))
 
 def find_best_option():
     for combination in possible_combinations:
+        print(combination)
         benefits = sum(action[3] for action in combination)
+        print(benefits)
 
 
 find_best_option()
