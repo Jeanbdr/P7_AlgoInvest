@@ -38,5 +38,5 @@ def create_combination():
 
 create_combination()
 # print(stocks[1][1:3])
-print(stocks)
-print(possible_combination)
+# print(stocks)
+print(len(possible_combination))
