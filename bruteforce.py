@@ -2,8 +2,10 @@ import csv
 import itertools
 import time
 
-# MAXIMUM COST POSSIBLE : 822
-# MAXIMUM COMBINATION POSSIBLE : 1.048.575
+# To obtain the maximum number of possible combinations
+# you have to do the following calculation 2**n
+# (n being the number of actions)
+# Which will give us 2**20 or 1,048,575
 
 
 def search_csv():
@@ -15,7 +17,7 @@ def search_csv():
                 row[0],
                 float(row[1]),
                 float(row[2]),
-                float(row[1]) * float(row[2]),
+                float(row[1]) * float(row[2]) / 100,
             )
             stocks.append(stock)
     return stocks
