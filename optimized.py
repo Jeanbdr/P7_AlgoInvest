@@ -25,20 +25,31 @@ stocks = search_csv()
 
 
 def knapSack(budget, action_cost, action_roi):
+    combination = []
     actions_number = len(action_roi)
     table = [[0 for x in range(budget + 1)] for x in range(actions_number + 1)]
-    for i in range(actions_number + 1):
-        for j in range(budget + 1):
-            if i == 0 or j == 0:
-                table[i][j] = 0
-            elif action_cost[i - 1] <= j:
+    for i in range(1, actions_number + 1):
+        for j in range(1, budget + 1):
+            if action_cost[i - 1] <= j:
                 table[i][j] = max(
+                    # J'achete l'action
                     action_roi[i - 1] + table[i - 1][j - action_cost[i - 1]],
+                    # Je n'achete pas l'action
                     table[i - 1][j],
                 )
             else:
                 table[i][j] = table[i - 1][j]
-    return table[actions_number][budget]
+    while budget >= 0 and actions_number >= 0:
+        if (
+            table[actions_number][budget]
+            == table[actions_number - 1][budget - action_cost[actions_number - 1]]
+            + action_roi[actions_number - 1]
+        ):
+            combination.append(stocks[actions_number - 1])
+            budget -= action_cost[actions_number - 1]
+        actions_number -= 1
+    result = print(combination), print(table[-1][-1])
+    return result
 
 
 roi = [action[3] for action in stocks]

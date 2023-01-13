@@ -6,6 +6,7 @@ import time
 # you have to do the following calculation 2**n
 # (n being the number of actions)
 # Which will give us 2**20 or 1,048,575
+# While using this script we consume approximatly 30Mo of memory
 
 
 def search_csv():
@@ -23,37 +24,30 @@ def search_csv():
     return stocks
 
 
-def create_combination(budget):
+def create_combination():
     possible_combinations = []
+    best_action = None
+    best_roi = 0
     for actions_number in range(1, len(stocks) + 1):
         for combination in itertools.combinations(stocks, actions_number):
-            combination_costs = [action[1] for action in combination]
-            if sum(combination_costs) <= budget:
-                possible_combinations.append(combination)
-    return possible_combinations
-
-
-def find_best_option():
-    combinations_benefits = []
-    final_result = []
+            possible_combinations.append(combination)
     for combination in possible_combinations:
-        benefits = sum(action[3] for action in combination)
-        combinations_benefits.append(benefits)
-    for total_roi, action_package in zip(combinations_benefits, possible_combinations):
-        final_result.append((total_roi, action_package))
-    final_result.sort(reverse=True)
-    print(
+        budget = sum(action[1] for action in combination)
+        roi = sum(action[3] for action in combination)
+        if budget < 500 and roi > best_roi:
+            best_action = combination
+            best_roi = roi
+    result = print(
         f"\nFYI : Each action contain : name, coast, benefits (in %) and calculated roi \n"
     )
-    print(
-        f"Here is the best buying option to maximize your profit : {final_result[0][1]}\n"
-    )
-    print(f"This combination will bring you a profit of : {final_result[0][0]}€\n\n")
+    print(f"Here is the best buying option to maximize your profit : {best_action}\n")
+    print(f"This combination will bring you a profit of : {best_roi}€\n\n")
+    return result
 
 
 start = time.time()
 stocks = search_csv()
-possible_combinations = create_combination(budget=500)
-find_best_option()
+create_combination()
+# time.sleep(20)
 end = time.time()
 print("This script took :", (end - start) * 10**3, "ms to give you this result.")
