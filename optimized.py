@@ -1,6 +1,4 @@
-"""OPTIMIZATION TIME"""
 import csv
-import itertools
 import time
 
 start = time.time()
@@ -14,8 +12,8 @@ def search_csv():
             stock = (
                 row[0],
                 int(row[1]),
-                int(row[2]),
-                float(row[1]) * float(row[2]) / 100,
+                float(row[2]),
+                (float(row[1]) * float(row[2])) / 100,
             )
             stocks.append(stock)
     return stocks
@@ -48,7 +46,7 @@ def knapSack(budget, action_cost, action_roi):
             combination.append(stocks[actions_number - 1])
             budget -= action_cost[actions_number - 1]
         actions_number -= 1
-    result = print(combination), print(table[-1][-1])
+    result = combination, table[-1][-1]
     return result
 
 
@@ -57,5 +55,6 @@ cost = [action[1] for action in stocks]
 budget = 500
 
 print(knapSack(budget=budget, action_cost=cost, action_roi=roi))
+# time.sleep(20)
 end = time.time()
 print("This script took :", (end - start) * 10**3, "ms to give you this result.")

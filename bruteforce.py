@@ -24,7 +24,7 @@ def search_csv():
     return stocks
 
 
-def create_combination():
+def find_best_option():
     possible_combinations = []
     best_action = None
     best_roi = 0
@@ -47,7 +47,7 @@ def create_combination():
 
 start = time.time()
 stocks = search_csv()
-create_combination()
+find_best_option()
 # time.sleep(20)
 end = time.time()
 print("This script took :", (end - start) * 10**3, "ms to give you this result.")
