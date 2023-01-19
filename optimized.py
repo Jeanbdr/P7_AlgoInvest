@@ -1,7 +1,7 @@
 import csv
 import time
 
-start = time.time()
+BUDGET = 500
 
 
 def search_csv():
@@ -9,22 +9,25 @@ def search_csv():
     with open("Action.csv") as file:
         reader = csv.reader(file)
         for row in reader:
-            stock = (
-                row[0],
-                int(row[1]),
-                float(row[2]),
-                (float(row[1]) * float(row[2])) / 100,
-            )
-            stocks.append(stock)
+            if row[0] == "name" or float(row[1]) <= 0 or float(row[2]) <= 0:
+                pass
+            else:
+                stock = (
+                    row[0],
+                    int(row[1]),
+                    float(row[2]),
+                    (float(row[1]) * float(row[2])) / 100,
+                )
+                stocks.append(stock)
     return stocks
 
 
-stocks = search_csv()
-
-
-def knapSack(budget, action_cost, action_roi):
+def knapSack():
+    budget = BUDGET
+    action_cost = [action[1] for action in stocks]
+    action_roi = [action[3] for action in stocks]
     combination = []
-    actions_number = len(action_roi)
+    actions_number = len(stocks)
     table = [[0 for x in range(budget + 1)] for x in range(actions_number + 1)]
     for i in range(1, actions_number + 1):
         for j in range(1, budget + 1):
@@ -46,15 +49,13 @@ def knapSack(budget, action_cost, action_roi):
             combination.append(stocks[actions_number - 1])
             budget -= action_cost[actions_number - 1]
         actions_number -= 1
-    result = combination, table[-1][-1]
-    return result
+    print(f"\nThe algorithm choose {len(combination)} actions\n\n")
+    print(f"Those actions are :\n{combination}\n\n")
+    print(f"This combination will generate a profit of {table[-1][-1]}€")
 
 
-roi = [action[3] for action in stocks]
-cost = [action[1] for action in stocks]
-budget = 500
-
-print(knapSack(budget=budget, action_cost=cost, action_roi=roi))
-# time.sleep(20)
+start = time.time()
+stocks = search_csv()
+knapSack()
 end = time.time()
-print("This script took :", (end - start) * 10**3, "ms to give you this result.")
+print("\nThis script took :", (end - start) * 10**3, "ms to give you this result.")
