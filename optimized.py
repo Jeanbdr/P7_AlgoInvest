@@ -26,7 +26,6 @@ def knapSack():
     budget = BUDGET
     action_cost = [action[1] for action in stocks]
     action_roi = [action[3] for action in stocks]
-    combination = []
     actions_number = len(stocks)
     table = [[0 for x in range(budget + 1)] for x in range(actions_number + 1)]
     for i in range(1, actions_number + 1):
@@ -40,6 +39,7 @@ def knapSack():
                 )
             else:
                 table[i][j] = table[i - 1][j]
+    combination = []
     while budget >= 0 and actions_number >= 0:
         if (
             table[actions_number][budget]

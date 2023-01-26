@@ -6,7 +6,7 @@ import time
 # you have to do the following calculation 2**n
 # (n being the number of actions)
 # Which will give us 2**20 or 1,048,575
-# While using this script we consume approximatly 30Mo of memory
+# While using this script we consume approximatly 5Mo of memory
 
 
 def search_csv():
